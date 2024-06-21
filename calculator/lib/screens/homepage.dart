@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:math_expressions/math_expressions.dart';
 
 class Homepage extends StatefulWidget {
   const Homepage({super.key});
@@ -13,14 +14,36 @@ class _HomepageState extends State<Homepage> {
 
   void onTappedValue(String value) {
     setState(() {
-      inputValues += value;
+      if (value == "AC") {
+        inputValues = "";
+      } else {
+        inputValues += value;
+      }
     });
-    print(inputValues);
+    // print(inputValues);
+  }
+
+  void onEqualPressed() {
+    String toCaluculate = inputValues.replaceAll("X", "*");
+    try {
+      Parser p = Parser();
+      Expression exp = p.parse(toCaluculate);
+      ContextModel cm = ContextModel();
+      double eval = exp.evaluate(EvaluationType.REAL, cm);
+
+      setState(() {
+        finalOutput = eval.toString();
+      });
+    } catch (e) {
+      setState(() {
+        finalOutput = "Error";
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    print("building");
+    // print("building");
     return Scaffold(
       backgroundColor: Color(0xff15181F),
       body: SafeArea(
@@ -30,8 +53,8 @@ class _HomepageState extends State<Homepage> {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               //Output Display
-              SizedBox(
-                height: MediaQuery.of(context).size.height * 0.2,
+              Expanded(
+                flex: 2,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
@@ -43,18 +66,23 @@ class _HomepageState extends State<Homepage> {
                           fontWeight: FontWeight.bold),
                     ),
                     //input Display
-                    Container(
-                      width: double.infinity,
-                      padding: EdgeInsets.all(16),
-                      decoration: BoxDecoration(
-                        color: Color(0xff21242E),
-                      ),
-                      child: Text(
-                        inputValues,
-                        textAlign: TextAlign.right,
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 40,
+                    Expanded(
+                      child: Container(
+                        width: double.infinity,
+                        padding: EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                          color: Color(0xff21242E),
+                        ),
+                        child: FittedBox(
+                          alignment: Alignment.centerRight,
+                          child: Text(
+                            inputValues,
+                            textAlign: TextAlign.right,
+                            style: TextStyle(
+                              color: Colors.white,
+                            ),
+                            maxLines: 1,
+                          ),
                         ),
                       ),
                     ),
@@ -63,9 +91,11 @@ class _HomepageState extends State<Homepage> {
               ),
               SizedBox(height: 16),
               Expanded(
+                flex: 7,
                 child: Wrap(
                   spacing: 8,
                   runSpacing: 8,
+                  runAlignment: WrapAlignment.end,
                   children: [
                     CalculatorNumpadItemWIdget(
                       value: "AC",
@@ -107,7 +137,7 @@ class _HomepageState extends State<Homepage> {
                     CalculatorNumpadItemWIdget(
                       value: "x",
                       onTap: () {
-                        // onTappedValue("x");
+                        onTappedValue("X");
                       },
                     ),
                     CalculatorNumpadItemWIdget(
@@ -174,7 +204,7 @@ class _HomepageState extends State<Homepage> {
                     CalculatorNumpadItemWIdget(
                       value: "=",
                       onTap: () {
-                        onTappedValue("=");
+                        onEqualPressed();
                       },
                     ),
                   ],
@@ -205,7 +235,7 @@ class CalculatorNumpadItemWIdget extends StatelessWidget {
       child: Container(
         color: Color(0xff373F4C),
         width: (MediaQuery.of(context).size.width / colSpan) - 8,
-        height: (MediaQuery.of(context).size.height / 8),
+        height: (MediaQuery.of(context).size.height / 8.5),
         child: Center(
           child: Text(
             value,
