@@ -1,10 +1,26 @@
 import 'package:flutter/material.dart';
 
-class Homepage extends StatelessWidget {
+class Homepage extends StatefulWidget {
   const Homepage({super.key});
 
   @override
+  State<Homepage> createState() => _HomepageState();
+}
+
+class _HomepageState extends State<Homepage> {
+  String finalOutput = "";
+  String inputValues = "";
+
+  void onTappedValue(String value) {
+    setState(() {
+      inputValues += value;
+    });
+    print(inputValues);
+  }
+
+  @override
   Widget build(BuildContext context) {
+    print("building");
     return Scaffold(
       backgroundColor: Color(0xff15181F),
       body: SafeArea(
@@ -20,7 +36,7 @@ class Homepage extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Text(
-                      "985",
+                      finalOutput,
                       style: TextStyle(
                           color: Colors.white,
                           fontSize: 64,
@@ -34,7 +50,7 @@ class Homepage extends StatelessWidget {
                         color: Color(0xff21242E),
                       ),
                       child: Text(
-                        "985",
+                        inputValues,
                         textAlign: TextAlign.right,
                         style: TextStyle(
                           color: Colors.white,
@@ -54,58 +70,112 @@ class Homepage extends StatelessWidget {
                     CalculatorNumpadItemWIdget(
                       value: "AC",
                       colSpan: 2,
+                      onTap: () {
+                        onTappedValue("AC");
+                      },
                     ),
                     CalculatorNumpadItemWIdget(
                       value: "%",
+                      onTap: () {
+                        onTappedValue("%");
+                      },
                     ),
                     CalculatorNumpadItemWIdget(
                       value: "/",
+                      onTap: () {
+                        onTappedValue("/");
+                      },
                     ),
                     CalculatorNumpadItemWIdget(
                       value: "7",
+                      onTap: () {
+                        onTappedValue("7");
+                      },
                     ),
                     CalculatorNumpadItemWIdget(
                       value: "8",
+                      onTap: () {
+                        onTappedValue("8");
+                      },
                     ),
                     CalculatorNumpadItemWIdget(
                       value: "9",
+                      onTap: () {
+                        onTappedValue("9");
+                      },
                     ),
                     CalculatorNumpadItemWIdget(
                       value: "x",
+                      onTap: () {
+                        // onTappedValue("x");
+                      },
                     ),
                     CalculatorNumpadItemWIdget(
                       value: "4",
+                      onTap: () {
+                        onTappedValue("4");
+                      },
                     ),
                     CalculatorNumpadItemWIdget(
                       value: "5",
+                      onTap: () {
+                        onTappedValue("5");
+                      },
                     ),
                     CalculatorNumpadItemWIdget(
                       value: "6",
+                      onTap: () {
+                        onTappedValue("6");
+                      },
                     ),
                     CalculatorNumpadItemWIdget(
                       value: "-",
+                      onTap: () {
+                        onTappedValue("-");
+                      },
                     ),
                     CalculatorNumpadItemWIdget(
                       value: "1",
+                      onTap: () {
+                        onTappedValue("1");
+                      },
                     ),
                     CalculatorNumpadItemWIdget(
                       value: "2",
+                      onTap: () {
+                        onTappedValue("2");
+                      },
                     ),
                     CalculatorNumpadItemWIdget(
                       value: "3",
+                      onTap: () {
+                        onTappedValue("3");
+                      },
                     ),
                     CalculatorNumpadItemWIdget(
                       value: "+",
+                      onTap: () {
+                        onTappedValue("+");
+                      },
                     ),
                     CalculatorNumpadItemWIdget(
                       value: "0",
                       colSpan: 2,
+                      onTap: () {
+                        onTappedValue("0");
+                      },
                     ),
                     CalculatorNumpadItemWIdget(
                       value: ".",
+                      onTap: () {
+                        onTappedValue(".");
+                      },
                     ),
                     CalculatorNumpadItemWIdget(
                       value: "=",
+                      onTap: () {
+                        onTappedValue("=");
+                      },
                     ),
                   ],
                 ),
@@ -123,21 +193,26 @@ class CalculatorNumpadItemWIdget extends StatelessWidget {
     super.key,
     required this.value,
     this.colSpan = 4,
+    required this.onTap,
   });
   final int colSpan;
   final String value;
+  final void Function() onTap;
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Color(0xff373F4C),
-      width: (MediaQuery.of(context).size.width / colSpan) - 8,
-      height: (MediaQuery.of(context).size.height / 8),
-      child: Center(
-        child: Text(
-          value,
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 40,
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        color: Color(0xff373F4C),
+        width: (MediaQuery.of(context).size.width / colSpan) - 8,
+        height: (MediaQuery.of(context).size.height / 8),
+        child: Center(
+          child: Text(
+            value,
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 40,
+            ),
           ),
         ),
       ),
