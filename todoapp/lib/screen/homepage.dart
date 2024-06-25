@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:todoapp/screen/add_todo.dart';
+import 'package:todoapp/model/todo_model.dart';
 
 import '../widget/todoitem_widget.dart';
 
@@ -10,6 +10,14 @@ class Homepage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    List<TodoModel> todos = [
+      TodoModel(id: 1, title: "title1"),
+      TodoModel(id: 2, title: "title2"),
+      TodoModel(id: 3, title: "title3"),
+      TodoModel(id: 4, title: "title4"),
+      TodoModel(id: 5, title: "title5"),
+      TodoModel(id: 6, title: "title6"),
+    ];
     return Scaffold(
       appBar: AppBar(
         title: Text("My Todos"),
@@ -30,13 +38,11 @@ class Homepage extends StatelessWidget {
           Icons.add,
         ),
       ),
-      body: ListView(
-        padding: EdgeInsets.all(16),
-        children: [
-          TodoItem(
-            title: "Task 1000",
-          ),
-        ],
+      body: ListView.builder(
+        itemBuilder: (context, index) {
+          return TodoItem(title: todos[index].title);
+        },
+        itemCount: todos.length,
       ),
     );
   }

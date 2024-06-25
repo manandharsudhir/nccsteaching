@@ -41,13 +41,6 @@ class _TodoItemState extends State<TodoItem> {
               color: Colors.white,
             ),
           ),
-          ElevatedButton(
-            onPressed: () {},
-         style:ButtonStyle(
-          
-         ) ,   
-            child: Text("data"),
-          ),
           GestureDetector(
             onTap: () {
               showDialog(
