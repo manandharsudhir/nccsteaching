@@ -1,13 +1,14 @@
+import 'package:uuid/uuid.dart';
+
 class TodoModel {
-  int id;
+  String id;
   bool isDone;
   String title;
   String description;
 
   TodoModel({
-    required this.id,
     required this.title,
     this.description = "",
     this.isDone = false,
-  });
+  }) : id = Uuid().v4();
 }

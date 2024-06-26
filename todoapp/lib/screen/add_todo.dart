@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todoapp/model/todo_model.dart';
 
 class AddTodoPage extends StatelessWidget {
   AddTodoPage({super.key});
@@ -17,7 +18,12 @@ class AddTodoPage extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         child: ElevatedButton(
           onPressed: () {
-            formKey.currentState!.validate();
+            if (formKey.currentState!.validate()) {
+              Navigator.of(context).pop(TodoModel(
+                title: titleController.text,
+                description: descriptionController.text,
+              ));
+            }
           },
           child: Text(
             "Save",
@@ -56,13 +62,6 @@ class AddTodoPage extends StatelessWidget {
               ),
               TextFormField(
                 controller: descriptionController,
-                validator: (value) {
-                  if ((value ?? "").isEmpty) {
-                    return "Field cannot be empty";
-                  } else {
-                    return null;
-                  }
-                },
                 maxLines: null,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
