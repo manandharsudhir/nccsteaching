@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:todoapp/model/todo_model.dart';
+import 'package:uuid/uuid.dart';
 
 class AddTodoPage extends StatelessWidget {
   AddTodoPage({super.key});
@@ -20,6 +21,7 @@ class AddTodoPage extends StatelessWidget {
           onPressed: () {
             if (formKey.currentState!.validate()) {
               Navigator.of(context).pop(TodoModel(
+                id: Uuid().v4(),
                 title: titleController.text,
                 description: descriptionController.text,
               ));

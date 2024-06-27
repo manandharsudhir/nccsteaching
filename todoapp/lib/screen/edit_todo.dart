@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:todoapp/model/todo_model.dart';
+import 'package:uuid/uuid.dart';
 
 class EditTodoPage extends StatefulWidget {
   EditTodoPage({super.key, required this.todoModel});
@@ -36,6 +37,7 @@ class _EditTodoPageState extends State<EditTodoPage> {
           onPressed: () {
             if (formKey.currentState!.validate()) {
               Navigator.of(context).pop(TodoModel(
+                id: Uuid().v4(),
                 title: titleController.text,
                 description: descriptionController.text,
               ));
