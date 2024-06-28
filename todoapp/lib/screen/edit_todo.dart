@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:todoapp/model/todo_model.dart';
+import 'package:todoapp/services/api_service.dart';
 import 'package:uuid/uuid.dart';
 
 class EditTodoPage extends StatefulWidget {
@@ -23,6 +24,8 @@ class _EditTodoPageState extends State<EditTodoPage> {
     super.initState();
   }
 
+  ApiService apiService = ApiService();
+  bool isLoading = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,22 +37,40 @@ class _EditTodoPageState extends State<EditTodoPage> {
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.all(16.0),
         child: ElevatedButton(
-          onPressed: () {
+          onPressed: () async {
             if (formKey.currentState!.validate()) {
-              Navigator.of(context).pop(TodoModel(
-                id: Uuid().v4(),
-                title: titleController.text,
-                description: descriptionController.text,
-              ));
+              try {
+                TodoModel todo = TodoModel(
+                  id: Uuid().v4(),
+                  title: titleController.text,
+                  description: descriptionController.text,
+                  isDone: false,
+                );
+                final response = await apiService
+                    .put("/todos/${widget.todoModel.id}", body: todo.toJson());
+                todo = TodoModel.fromJson(response["data"]);
+
+                Navigator.of(context).pop(todo);
+              } catch (e) {
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text("Error: $e"),
+                ));
+              } finally {
+                setState(() {
+                  isLoading = false;
+                });
+              }
             }
           },
-          child: Text(
-            "Save",
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
+          child: isLoading
+              ? CircularProgressIndicator()
+              : Text(
+                  "Save",
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
         ),
       ),
       body: Form(

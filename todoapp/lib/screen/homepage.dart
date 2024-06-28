@@ -25,7 +25,7 @@ class _HomepageState extends State<Homepage> {
     });
     final responseTodo = await apiService.get("/todos");
     setState(() {
-      //another variation
+      //another variation/for understanding
       // final todoItems = (responseTodo["items"] as List);
       // for (int i = 0; i < todoItems.length; i++) {
       //   todos.add(TodoModel.fromJson(todoItems[i]));
