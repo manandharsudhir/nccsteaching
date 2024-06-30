@@ -21,4 +21,12 @@ class TodoModel {
       isDone: jsonData["is_completed"],
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      "title": title,
+      "descripton": description,
+      "is_completed": isDone,
+    };
+  }
 }

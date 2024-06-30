@@ -35,6 +35,7 @@ class _HomepageState extends State<Homepage> {
         finalOutput = eval.toString();
       });
     } catch (e) {
+      print(e.toString());
       setState(() {
         finalOutput = "Error";
       });
