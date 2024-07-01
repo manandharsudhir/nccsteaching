@@ -34,7 +34,6 @@ class ScreenTwo extends ConsumerWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          ref.read(counterStateProvider.notifier).state++;
           ref.read(todoProvider.notifier).state.add(
                 TodoModel(
                   title: counterState.toString(),

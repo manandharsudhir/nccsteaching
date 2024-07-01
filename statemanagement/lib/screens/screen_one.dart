@@ -100,7 +100,13 @@ class ScreenOne extends ConsumerWidget {
               style: TextStyle(fontSize: 32),
             ),
             Text(
-              counterState.toString(),
+              "Old Value" + counterState.counterValue.toString(),
+              style: TextStyle(
+                fontSize: 40,
+              ),
+            ),
+            Text(
+              "New Value" + counterState.newCounterValue.toString(),
               style: TextStyle(
                 fontSize: 40,
               ),
@@ -123,12 +129,25 @@ class ScreenOne extends ConsumerWidget {
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          ref.read(counterStateProvider.notifier).state++;
-        },
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
+      floatingActionButton: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          FloatingActionButton(
+            onPressed: () {
+              ref.read(counterStateProvider.notifier).incrementNew();
+              ref.read(counterStateProvider.notifier).increment();
+            },
+            tooltip: 'Increment',
+            child: const Icon(Icons.add),
+          ),
+          FloatingActionButton(
+            onPressed: () {
+              ref.read(counterStateProvider.notifier).decrement();
+            },
+            tooltip: 'Increment',
+            child: const Icon(Icons.remove),
+          ),
+        ],
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
